@@ -8,21 +8,28 @@
 
 
 ``safesort`` does what it says on the box: guarantees safe sorting of arbitrary
-heterogeneous lists across Python 2 and Python 3.
+heterogeneous lists across Python 2 and Python 3::
+
+    >>> list(sorted(["a", 1, None]))
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: unorderable types: int() < str()
+    >>> list(safesort(["a", 1, None))
+    [None, 1, 'a']
 
 Three ordering keys are attempted for each comparison:
 
-1. Object-to-object: ``objA > objB``
+    1. Object: ``objA > objB``
 
-2. Type-and-object: ``(type(objA).__mro__, objA) > (type(objB).__mro__, objB)``
+    2. Type-and-object: ``(type(objA).__mro__, objA) > (type(objB).__mro__, objB)``
 
-3. Type-and-identity: ``(type(objA).__mro__, id(objA)) > (type(objB).__mro__, id(objB))``
+    3. Type-and-identity: ``(type(objA).__mro__, id(objA)) > (type(objB).__mro__, id(objB))``
 
 This guarantees a total ordering which is:
 
-1. As consistent as possible
+    1. As consistent as possible
 
-2. Broadly sensible: objects with similar types will be grouped together
+    2. Broadly sensible: objects with similar types will be grouped together
 
 For example::
 
@@ -31,6 +38,7 @@ For example::
     >>> input.reverse()
     >>> list(safesort(input))
     [None, 1, {}, [], set([]), 'a']
+
 
 Note: ``SafelySortable`` class implements a ``__hash__`` method which will
 guarantees that ``hash(SafelySortable(x)) == hash(SafelySortable(y))`` if
@@ -46,8 +54,8 @@ of ``x`` and ``y``. The implementation is *blindingly* naive, though::
 
 And really *should not be used* unless absolutely necessary.
 
-TODO: is implementing __hash__ even a good idea? Maybe it should just TypeError
-out all the time?
+    TODO: is implementing __hash__ even a good idea? Maybe it should just TypeError
+    out all the time?
 
 
 .. comment::
