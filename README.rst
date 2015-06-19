@@ -1,5 +1,3 @@
-**WARNING** THIS EXISTS ONLY AS AN RFC; NOT READY FOR ANY SORT OF REAL-WORLD USE **WARNING**
-
 ``safesort``: safely sort heterogeneous collections on Python 2 and 3
 =====================================================================
 
@@ -28,44 +26,22 @@ Three ordering keys are attempted for each comparison:
 This guarantees a total ordering which is:
 
     1. As consistent as possible
-
     2. Broadly sensible: objects with similar types will be grouped together
 
 For example::
 
     >>> from safesort import safesort
-    >>> input = [None, 1, {}, [], set([]), 'a']
-    >>> input.reverse()
+    >>> input = ['a', set([]), [], {}, 1, None]
     >>> list(safesort(input))
     [None, 1, {}, [], set([]), 'a']
 
 
-Note: ``SafelySortable`` class implements a ``__hash__`` method which will
-guarantees that ``hash(SafelySortable(x)) == hash(SafelySortable(y))`` if
-``SafelySortable(x) == SafelySortable(y)`` for all reasonable implementations
-of ``x`` and ``y``. The implementation is *blindingly* naive, though::
+Installation
+------------
 
-    def __hash__(self):
-        try:
-            return hash(self.obj)
-        except TypeError:
-            pass
-        return 1
+``safesort`` can be installed with Python 2 or Python 3 using ``pip`` or
+``easy_install``::
 
-And really *should not be used* unless absolutely necessary.
-
-    TODO: is implementing __hash__ even a good idea? Maybe it should just TypeError
-    out all the time?
-
-
-.. comment::
-
-    Installation
-    ------------
-
-    ``safesort`` can be installed with Python 2 or Python 3 using ``pip`` or
-    ``easy_install``::
-
-        $ pip install safesort
-        - OR -
-        $ easy_install safesort
+    $ pip install safesort
+    - OR -
+    $ easy_install safesort

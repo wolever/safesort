@@ -51,12 +51,7 @@ class SafelySortable(object):
         return (self.prefix, id(self.obj))
 
     def __hash__(self):
-        # TODO: is this a good idea? Maybe this should not exist?
-        try:
-            return hash(self.obj)
-        except TypeError:
-            pass
-        return 1
+        raise TypeError("unhashable type: 'SafelySortable'")
 
     __lt__ = _build_safe_cmp_func("__lt__", "<")
     __gt__ = _build_safe_cmp_func("__gt__", ">")
@@ -69,5 +64,4 @@ class SafelySortable(object):
 
 def safesort(input, key=None, reverse=False):
     """ Safely sort heterogeneous collections. """
-    # TODO: support cmp= on Py 2.x?
     return sorted(input, key=lambda o: SafelySortable(o, key=key), reverse=reverse)

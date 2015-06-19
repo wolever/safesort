@@ -12,7 +12,7 @@ except IOError:
 
 setup(
     name="safesort",
-    version="0.1.0",
+    version="0.2.0",
     url="https://github.com/wolever/safesort",
     author="David Wolever",
     author_email="david@wolever.net",
